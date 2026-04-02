@@ -1,0 +1,323 @@
+/* Reset cơ bản */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.main-header {
+  background-color: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 15px 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.main-header .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+/* Logo */
+.logo a {
+  font-size: 24px;
+  font-weight: 700;
+  text-decoration: none;
+  color: #333;
+}
+
+.logo span {
+  color: #007bff; /* Màu xanh thương hiệu */
+}
+
+/* Navigation */
+.nav-menu ul {
+  display: flex;
+  list-style: none;
+}
+
+.nav-menu ul li {
+  margin: 0 15px;
+}
+
+.nav-menu ul li a {
+  text-decoration: none;
+  color: #555;
+  font-weight: 500;
+  transition: 0.3s;
+  position: relative;
+  padding-bottom: 5px;
+}
+
+/* Hiệu ứng gạch chân khi hover */
+.nav-menu ul li a::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #007bff;
+  transition: 0.3s;
+}
+
+.nav-menu ul li a:hover::after,
+.nav-menu ul li a.active::after {
+  width: 100%;
+}
+
+.nav-menu ul li a:hover {
+  color: #007bff;
+}
+
+/* Nút bấm */
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+/* Mobile Responsive (Cơ bản) */
+@media (max-width: 768px) {
+  .nav-menu {
+    display: none; /* Trong thực tế bạn sẽ cần thêm menu hamburger ở đây */
+  }
+}
+
+/* Footer Styles */
+.main-footer {
+  background-color: #1a1a1a; /* Màu tối sang trọng */
+  color: #ffffff;
+  padding: 60px 0 20px;
+  margin-top: 50px; /* Cách nội dung trang ra một chút */
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr; /* Chia tỉ lệ cột */
+  gap: 40px;
+  padding: 0 20px;
+}
+
+.footer-col h3 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.footer-col h3 span {
+  color: #007bff;
+}
+
+.footer-col h4 {
+  font-size: 18px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+/* Gạch chân dưới tiêu đề cột */
+.footer-col h4::after {
+  content: "";
+  position: absolute;
+  width: 50px;
+  height: 2px;
+  background-color: #007bff;
+  bottom: -8px;
+  left: 0;
+}
+
+.footer-col p {
+  line-height: 1.6;
+  color: #ccc;
+  font-size: 14px;
+}
+
+.footer-col ul {
+  list-style: none;
+}
+
+.footer-col ul li {
+  margin-bottom: 10px;
+}
+
+.footer-col ul li a {
+  text-decoration: none;
+  color: #ccc;
+  transition: 0.3s;
+}
+
+.footer-col ul li a:hover {
+  color: #007bff;
+  padding-left: 5px; /* Hiệu ứng dịch sang phải khi hover */
+}
+
+/* Social Icons */
+.social-links {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.social-icon {
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  background-color: #333;
+  color: white;
+  text-align: center;
+  line-height: 35px;
+  border-radius: 50%;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.social-icon:hover {
+  background-color: #007bff;
+  transform: translateY(-3px);
+}
+
+/* Bản quyền */
+.footer-bottom {
+  text-align: center;
+  margin-top: 50px;
+  padding-top: 20px;
+  border-top: 1px solid #333;
+  font-size: 13px;
+  color: #777;
+}
+
+/* Responsive cho Mobile */
+@media (max-width: 768px) {
+  .footer-container {
+    grid-template-columns: 1fr; /* Xếp chồng các cột lên nhau trên điện thoại */
+    text-align: center;
+  }
+
+  .footer-col h4::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .social-links {
+    justify-content: center;
+  }
+}
+
+/* Container bao ngoài để căn giữa trang */
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh; /* Chiều cao tối thiểu để đẹp giữa Header và Footer */
+  padding: 20px;
+}
+
+.login-card {
+  background: #ffffff;
+  width: 100%;
+  max-width: 400px;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.login-card h2 {
+  text-align: center;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.login-card p {
+  text-align: center;
+  color: #777;
+  font-size: 14px;
+  margin-bottom: 30px;
+}
+
+/* Group nhập liệu */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #555;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.form-group input:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+}
+
+/* Options (Ghi nhớ & Quên mk) */
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  margin-bottom: 25px;
+}
+
+.form-options a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+/* Nút đăng nhập */
+.btn-login {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-login:hover {
+  background-color: #0056b3;
+}
+
+.login-footer {
+  text-align: center;
+  margin-top: 25px;
+  font-size: 14px;
+  color: #666;
+}
+
+.login-footer a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 600;
+}

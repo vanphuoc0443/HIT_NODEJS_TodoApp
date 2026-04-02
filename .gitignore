@@ -1,0 +1,13 @@
+# Node modules
+node_modules/
+
+# Environment variables
+.env
+
+# Build / dist
+dist/
+build/
+
+# Upload files (nếu có)
+uploads/
+public/uploads/

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title><%= title %></title>
+   <% if(css) {
+    %> <link rel="stylesheet" href="/css/<%= css %>.css"> <%
+   } %>
+  </head>
+  <body>
+    <%- include('../partials/header') %> <%- include(body) %>
+    <%-include('../partials/footer') %>
+  </body>
+</html>
