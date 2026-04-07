@@ -1,11 +1,15 @@
-import mongoose, { Schema, model } from "mongoose";
+import { Schema, model } from "mongoose";
 
 const userModel = new Schema({
-  username: String,
+  username: {
+    type: String,
+    require: true,
+  },
   password: {
     type: String,
     require: true,
   },
+  avatar: String,
   status: {
     type: String,
     enum: ["active", "inactive"],

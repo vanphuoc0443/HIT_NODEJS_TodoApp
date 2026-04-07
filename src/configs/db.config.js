@@ -1,10 +1,9 @@
 import mongoose from "mongoose";
-import dotenv from "dotenv";
-dotenv.config();
+import env from "./env.config.js";
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI);
+    await mongoose.connect(env.database.mongoURI);
     console.log("Kết nối Database thành công.");
   } catch (error) {
     console.log("Lỗi kết nối: " + error);

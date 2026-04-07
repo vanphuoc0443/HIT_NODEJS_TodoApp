@@ -2,8 +2,8 @@ import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
 import connectDB from "./configs/db.config.js";
-import { userModel } from "./models/index.js";
 import dotenv from "dotenv";
+import router from "./routes/index.js";
 dotenv.config();
 
 const app = express();
@@ -23,40 +23,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 // Middleware Cho phép server đọc dữ liệu từ form (x-www-form-urlencoded)
 app.use(express.urlencoded({ extended: true }));
-
-app.post("/user", async (req, res) => {
-  try {
-    const { username, password } = req.body;
-
-    // validate cơ bản
-    if (!username || !password) {
-      throw new Error("Thiếu username hoặc password");
-    }
-
-    // kiểm tra user tồn tại
-    const user = await userModel.findOne({ username });
-    if (user) {
-      throw new Error("User đã tồn tại");
-    }
-
-    // tạo user
-    const newUser = await userModel.create({
-      username,
-      password,
-    });
-
-    return res.status(201).json({
-      statusCode: 201,
-      message: "Tạo người dùng thành công.",
-      data: newUser,
-    });
-  } catch (error) {
-    return res.status(400).json({
-      statusCode: 400,
-      message: error.message || "Lỗi server",
-    });
-  }
-});
+// Sử dụng router
+app.use("/api/v1", router);
 
 connectDB()
   .then(() => {
