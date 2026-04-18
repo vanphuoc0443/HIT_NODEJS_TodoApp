@@ -4,6 +4,9 @@ import { fileURLToPath } from "url";
 import connectDB from "./configs/db.config.js";
 import dotenv from "dotenv";
 import router from "./routes/index.js";
+import { error } from "console";
+import errorHandler from "./middlewares/error.middleware.js";
+import cookieParser from "cookie-parser";
 dotenv.config();
 
 const app = express();
@@ -23,8 +26,13 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 // Middleware Cho phép server đọc dữ liệu từ form (x-www-form-urlencoded)
 app.use(express.urlencoded({ extended: true }));
+// Middleware cho phép server đọc cookie
+app.use(cookieParser());
 // Sử dụng router
 app.use("/api/v1", router);
+
+//Đăng ký middleware xử lý lỗi
+app.use(errorHandler);
 
 connectDB()
   .then(() => {

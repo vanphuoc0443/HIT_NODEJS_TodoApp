@@ -1,2 +1,4 @@
 import userModel from "./user.model.js";
-export { userModel };
+import tokenModel from "./token.model.js";
+
+export { userModel, tokenModel };
