@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Realistic Deep Space</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        overflow: hidden;
+        background: #000;
+      }
+
+      /* Lớp nền vũ trụ sâu thẳm */
+      section {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: linear-gradient(to bottom, #020111 0%, #20124d 100%);
+        overflow: hidden;
+      }
+
+      /* =========================================
+         1. CÁC VÌ SAO TĨNH (LẤP LÁNH)
+         ========================================= */
+      .star {
+        position: absolute;
+        background-color: #fff;
+        border-radius: 50%;
+        /* Hiệu ứng lấp lánh */
+        animation: twinkle ease-in-out infinite alternate;
+      }
+
+      @keyframes twinkle {
+        0% {
+          opacity: 0.1;
+          transform: scale(0.8);
+          box-shadow: 0 0 2px rgba(255, 255, 255, 0.05);
+        }
+        100% {
+          opacity: 0.8;
+          transform: scale(1.2);
+          box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+        }
+      }
+
+      /* =========================================
+         2. SAO BĂNG (METEORS)
+         ========================================= */
+      .meteor {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 50%;
+        box-shadow:
+          0 0 0 2px rgba(255, 255, 255, 0.1),
+          0 0 0 4px rgba(255, 255, 255, 0.1),
+          0 0 0 8px rgba(255, 255, 255, 0.05);
+        animation: meteor-fall 4s linear infinite;
+        opacity: 0;
+        z-index: 10;
+      }
+
+      .meteor::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 150px;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.8),
+          transparent
+        );
+      }
+
+      @keyframes meteor-fall {
+        0% {
+          transform: rotate(315deg) translateX(0);
+          opacity: 0;
+        }
+        10% {
+          opacity: 1;
+        }
+        60% {
+          opacity: 0;
+        }
+        100% {
+          transform: rotate(315deg) translateX(-1000px);
+          opacity: 0;
+        }
+      }
+
+      /* Vị trí các dải sao băng */
+      .meteor:nth-child(1) {
+        top: 0;
+        right: 0;
+        animation-delay: 0s;
+        animation-duration: 2s;
+      }
+      .meteor:nth-child(2) {
+        top: 0;
+        right: 80px;
+        animation-delay: 0.5s;
+        animation-duration: 3s;
+      }
+      .meteor:nth-child(3) {
+        top: 80px;
+        right: 0px;
+        animation-delay: 1.2s;
+        animation-duration: 2.5s;
+      }
+      .meteor:nth-child(4) {
+        top: 0;
+        right: 180px;
+        animation-delay: 2.1s;
+        animation-duration: 1.8s;
+      }
+      .meteor:nth-child(5) {
+        top: 0;
+        right: 400px;
+        animation-delay: 0.8s;
+        animation-duration: 3.2s;
+      }
+      .meteor:nth-child(6) {
+        top: 0;
+        right: 600px;
+        animation-delay: 3s;
+        animation-duration: 2.8s;
+      }
+      .meteor:nth-child(7) {
+        top: 300px;
+        right: 0px;
+        animation-delay: 1.7s;
+        animation-duration: 1.9s;
+      }
+    </style>
+  </head>
+  <body>
+    <section id="space-container">
+      <div class="meteor"></div>
+      <div class="meteor"></div>
+      <div class="meteor"></div>
+      <div class="meteor"></div>
+      <div class="meteor"></div>
+      <div class="meteor"></div>
+      <div class="meteor"></div>
+    </section>
+
+    <script>
+      // SCRIPT TỰ ĐỘNG TẠO BẦU TRỜI SAO
+      const spaceContainer = document.getElementById("space-container");
+      const numberOfStars = 150; // Bạn có thể tăng lên 300 nếu muốn bầu trời đặc sao hơn
+
+      for (let i = 0; i < numberOfStars; i++) {
+        let star = document.createElement("div");
+        star.className = "star";
+
+        // 1. Random kích thước từ 0.5px đến 2.5px
+        let size = Math.random() * 2 + 0.5;
+        star.style.width = size + "px";
+        star.style.height = size + "px";
+
+        // 2. Random vị trí trên toàn màn hình
+        star.style.left = Math.random() * 100 + "%";
+        star.style.top = Math.random() * 100 + "%";
+
+        // 3. Random tốc độ nhấp nháy (từ 2s đến 5s)
+        star.style.animationDuration = Math.random() * 3 + 2 + "s";
+
+        // 4. Random độ trễ để các sao không nhấp nháy cùng lúc
+        star.style.animationDelay = Math.random() * 5 + "s";
+
+        spaceContainer.appendChild(star);
+      }
+    </script>
+  </body>
+</html>
