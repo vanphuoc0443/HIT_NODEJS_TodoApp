@@ -1,8 +1,9 @@
 import { StatusCodes } from "http-status-codes";
-import { userModel } from "../models/index.js";
+import { userModel, roleModel } from "../models/index.js";
 import bcrypt from "bcrypt";
 import catchAsync from "../utils/catchAsync.js";
 import response from "../utils/response.js";
+import ApiError from "../utils/ApiError.js";
 
 // [GET] /api/v1/user
 const getUsers = catchAsync(async (req, res) => {
@@ -36,25 +37,21 @@ const getUserById = catchAsync(async (req, res) => {
 const createUser = catchAsync(async (req, res) => {
   const { username, password } = req.body;
 
-  if (!username || !password) {
-    return res
-      .status(StatusCodes.BAD_REQUEST)
-      .json(response(StatusCodes.BAD_REQUEST, "Thiếu username hoặc password."));
-  }
-
   const existUser = await userModel.findOne({ username });
 
   if (existUser) {
-    return res
-      .status(StatusCodes.BAD_REQUEST)
-      .json(response(StatusCodes.BAD_REQUEST, "User đã tồn tại."));
+    throw new ApiError(StatusCodes.CONFLICT, "User đã tồn tại.");
   }
 
   const hashPassword = await bcrypt.hash(password, 10);
 
+  // Lấy role mặc định là "user"
+  const defaultRole = await roleModel.findOne({ name: "user" });
+
   const newUser = await userModel.create({
     username,
     password: hashPassword,
+    role: defaultRole ? defaultRole._id : null, // Gán role mặc định
   });
 
   const userObj = newUser.toObject();
@@ -68,11 +65,12 @@ const createUser = catchAsync(async (req, res) => {
 // [PUT] /api/v1/user/:userId
 const editUser = catchAsync(async (req, res) => {
   const { userId } = req.params;
-  const { username, password } = req.body;
+  const { username, password, role } = req.body;
 
   let updateData = {};
 
   if (username) updateData.username = username;
+  if (role) updateData.role = role; // Thêm dòng này để Admin update role
 
   if (password) {
     const hashPassword = await bcrypt.hash(password, 10);

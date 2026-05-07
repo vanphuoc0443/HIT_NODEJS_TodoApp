@@ -3,17 +3,26 @@ import { Schema, model } from "mongoose";
 const userModel = new Schema({
   username: {
     type: String,
-    require: true,
+    required: true,
+    unique: true,
+    trim: true,
+    minLength: 3,
+    maxLength: 50,
   },
   password: {
     type: String,
-    require: true,
+    required: true,
   },
   avatar: String,
   status: {
     type: String,
     enum: ["active", "inactive"],
     default: "active",
+  },
+  role: {
+    type: Schema.Types.ObjectId,
+    ref: "Role",
+    default: null, //bắt buộc dùng objectID
   },
 });
 

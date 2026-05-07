@@ -31,11 +31,14 @@ const login = catchAsync(async (req, res) => {
   const accessToken = jwt.generateAccessToken(user._id);
   const refreshToken = jwt.generateRefreshToken(user._id);
 
+  //Xóa token cũ trước khi tạo mới nếu có
+  await tokenModel.deleteOne({ userId: user.id });
+
   // Lưu token vào db
   await tokenModel.create({
     userId: user.id,
     refreshToken,
-    expireAt: new Date(),
+    expireAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
   });
 
   // Thiết lập Cookie
@@ -53,6 +56,24 @@ const login = catchAsync(async (req, res) => {
     .status(StatusCodes.OK)
     .json(response(StatusCodes.OK, "Đăng nhập thành công.", { accessToken }));
 });
+
+// [POST] /auth/logout
+const logout = catchAsync(async (req, res) => {
+  // Xóa cookie
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    secure: env.server.nodeEnv === "production",
+    sameSite: env.server.nodeEnv === "production" ? "none" : "lax",
+  });
+
+  // Xóa token trong database
+  await tokenModel.deleteOne({ userId: req.user._id });
+
+  return res
+    .status(StatusCodes.OK)
+    .json(response(StatusCodes.OK, "Đăng xuất thành công.", {}));
+});
+
 
 // [POST] /auth/refresh-token
 const refreshToken = catchAsync(async (req, res) => {
@@ -125,5 +146,6 @@ const getMe = catchAsync(async (req, res) => {
 export default {
   getMe,
   login,
+  logout,
   refreshToken,
 };
