@@ -1,18 +1,19 @@
 import { StatusCodes } from "http-status-codes";
 import catchAsync from "../utils/catchAsync.js";
 import response from "../utils/response.js";
+import ApiError from "../utils/ApiError.js";
 
-// [GET] /api/v1/user
+// [POST] /api/v1/uploads
 const uploadImage = catchAsync((req, res) => {
-  const avatar = req.body.avatar;
+  const image = req.body.image;
 
-  if (!avatar) {
+  if (!image) {
     throw new ApiError(StatusCodes.BAD_REQUEST, "Lỗi Upload ảnh");
   }
 
   res.status(StatusCodes.OK).json(
     response(StatusCodes.OK, "Upload ảnh thành công", {
-      url: avatar,
+      url: image,
     }),
   );
 });

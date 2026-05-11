@@ -39,6 +39,7 @@ export const uploadImage = async (req, res, next) => {
 
     next();
   } catch (err) {
+    console.error("Cloudinary Upload Error:", err);
     next(err);
   }
 };
