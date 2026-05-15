@@ -22,7 +22,7 @@ const userModel = new Schema({
   role: {
     type: Schema.Types.ObjectId,
     ref: "Role",
-    default: null, //bắt buộc dùng objectID
+    default: "user",
   },
 });
 

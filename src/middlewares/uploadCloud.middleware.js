@@ -6,8 +6,16 @@ const storage = multer.memoryStorage();
 export const uploadMemory = multer({
   storage,
   limits: {
-    fileSize: 30 * 1024 * 1024, // Giới hạn 5MB
+    fileSize: 30 * 1024 * 1024, // Giới hạn 30MB
   },
+  fileFilter: (req, file, cb) => {
+    const allowedMimeTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+
+    if (!allowedMimeTypes.includes(file.mimetype)) {
+      return cb(new Error("Chỉ cho phép tải lên các định dạng ảnh (JPEG, PNG, GIF, WEBP)"));
+    }
+    cb(null, true);
+  }
 });
 
 export const uploadImage = async (req, res, next) => {

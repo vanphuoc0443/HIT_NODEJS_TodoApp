@@ -12,6 +12,17 @@ const createTodo = {
   }),
 };
 
+const getTodos = {
+  query: Joi.object({
+    status: Joi.string().valid("pending", "done"),
+    search: Joi.string().trim().allow("").max(100),
+    sortBy: Joi.string().valid("createdAt", "updatedAt", "title", "status").default("createdAt"),
+    sortOrder: Joi.string().valid("asc", "desc").default("desc"),
+    page: Joi.number().integer().min(1).default(1),
+    limit: Joi.number().integer().min(1).max(100).default(10),
+  }),
+};
+
 const getTodoById = {
   params: Joi.object({
     id: Joi.string().hex().length(24).required().messages({
@@ -37,4 +48,4 @@ const deleteTodo = {
   }),
 };
 
-export default { createTodo, getTodoById, updateTodo, deleteTodo };
+export default { createTodo, getTodoById, updateTodo, deleteTodo, getTodos };

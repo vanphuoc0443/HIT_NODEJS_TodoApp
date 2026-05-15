@@ -6,6 +6,7 @@ import ApiError from "../utils/ApiError.js";
 import jwt from "../utils/jwt.js";
 import env from "../configs/env.config.js";
 import response from "../utils/response.js";
+import hashToken from "../utils/token.js";
 
 // [POST] /auth/login
 const login = catchAsync(async (req, res) => {
@@ -27,9 +28,17 @@ const login = catchAsync(async (req, res) => {
     );
   }
 
+  if (user.status !== "active") {
+    throw new ApiError(
+      StatusCodes.FORBIDDEN,
+      "Tài khoản của bạn đã bị khóa.",
+    );
+  }
+
   // Tạo token
   const accessToken = jwt.generateAccessToken(user._id);
   const refreshToken = jwt.generateRefreshToken(user._id);
+  const refreshTokenHash = hashToken(refreshToken);
 
   //Xóa token cũ trước khi tạo mới nếu có
   await tokenModel.deleteOne({ userId: user.id });
@@ -37,7 +46,7 @@ const login = catchAsync(async (req, res) => {
   // Lưu token vào db
   await tokenModel.create({
     userId: user.id,
-    refreshToken,
+    refreshTokenHash,
     expireAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
   });
 

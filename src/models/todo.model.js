@@ -6,6 +6,11 @@ const todoSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    slug: {
+      type: String,
+      trim: true,
+      index: true,
+    },
     description: {
       type: String,
     },

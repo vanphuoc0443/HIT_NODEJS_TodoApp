@@ -32,6 +32,12 @@ const auth = catchAsync(async (req, res, next) => {
     throw new ApiError(StatusCodes.UNAUTHORIZED, "Người dùng không tồn tại.");
   }
 
+  if (user.status !== "active") {
+    throw new ApiError(
+      StatusCodes.FORBIDDEN,
+      "Tài khoản của bạn đã bị khóa.",
+    );
+  }
   req.user = user;
   next();
 });
